@@ -1,0 +1,38 @@
+QWidget#fenster{
+
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #AAAAAA);
+									   
+
+}
+
+
+
+QPushButton#goCrazy  {
+ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #18AE17, stop: 1 #000000);    border-style: outset;
+     border-width: 4px;
+     border-radius: 40px;
+     border-color: beige;
+     font: bold 14px;
+     min-width: 2em;
+     padding: 40px;
+ }
+
+ 
+
+
+QPushButton  {
+     background-color: #18AE17;
+     border-style: outset;
+     border-width: 2px;
+     border-radius: 10px;
+     border-color: beige;
+     font: bold 14px;
+     min-width: 10em;
+     padding: 6px;
+ }
+ QPushButton:pressed {
+     background-color: rgb(224, 0, 0);
+     border-style: inset;
+ }
