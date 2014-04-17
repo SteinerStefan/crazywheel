@@ -1,0 +1,1 @@
+FileHandling::parseText -- linux/Windows kompatibilität anpassen

@@ -6,13 +6,13 @@
 
 class Wheel;
 class QString;
-
+class Window;
 
 class FileHandling : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FileHandling(Wheel* pWheel, QWidget *parent = 0 );
+    explicit FileHandling(Window* pWindow,Wheel* pWheel,QWidget *parent = 0 );
     void getANewFile();
     int  parseText();
     void searchFilesInDir();
@@ -23,6 +23,10 @@ public:
     void deleteLoc(int pfad);
     QVector<QString>* getLocations();
     QList<QString> getLocationsList();
+    int getSectorAnzahl();
+    int setSectorAnzahl(int anzahl);
+    QVector<QString> wheelText;
+
 signals:
 
 public slots:
@@ -30,9 +34,9 @@ public slots:
 
 private:
     Wheel* wheel;
+    Window* window;
     int sectorAnzahl;
     QVector<QString> locTextFiles;
-    QVector<QString> wheelText;
     QString wholeFile;
 };
 

@@ -37,6 +37,7 @@ Wheel::~Wheel()
 //---------------------------------------------------------------
 void Wheel::paintEvent(QPaintEvent *event)
 {
+    int sectorAnzahl = handler->getSectorAnzahl();
     double sectorWinkel = 360.0/sectorAnzahl;
 //Farben
     QColor colSectorDunkel(166,219,41);
@@ -91,7 +92,7 @@ void Wheel::paintEvent(QPaintEvent *event)
             painter.translate(xpos,ypos);
             painter.rotate(sectorWinkel*(0.5+x) -offsetWinkel);
 
-            painter.drawText(0, 0,text[x].toUtf8() );
+            painter.drawText(0, 0,handler->wheelText[x].toUtf8() );
 
             painter.restore();
         }
@@ -150,7 +151,7 @@ void Wheel::drehprozess()
             aufrufe = 1;
 
             offsetWinkel%=360;
-            if((offsetWinkel % (360/sectorAnzahl)) == 0 ) offsetWinkel +=10;
+            if((offsetWinkel % (360/handler->getSectorAnzahl())) == 0 ) offsetWinkel +=10;
             //wenn wheel keinen Gewinner zieht
             gewinnerString = offsetWinkel / (360/offsetWinkel)-1;
     }
@@ -173,36 +174,20 @@ int Wheel::randNumber() //random number between 1, 359
     return (w = w ^ (w >> 19) ^ (t ^ (t >> 8)))%359;
 }
 //---------------------------------------------------------------
-// Name     :  setNewFile
-// Funktion :  setzt neuen Filesatz
-//---------------------------------------------------------------
-void Wheel::setNewFile(int pSectorAnzahl, QVector<QString> pText)
-{
-    sectorAnzahl = pSectorAnzahl;
-    offsetWinkel = 0;
-
-    text.resize(pSectorAnzahl);
-
-    for(int x = 0; x<pSectorAnzahl; x++)
-    {
-        text[x] = pText[x];
-    }
-    hauptFenster->fertigDrehen();//button activate
-    update();
-}
-//---------------------------------------------------------------
 // Name     :  wheelInitPosition
 // Funktion :  setzt neuen Filesatz
 //---------------------------------------------------------------
 void Wheel::wheelInitPosition()
 {
     offsetWinkel = 90;
-    sectorAnzahl = 2;
+    handler->setSectorAnzahl(2);
 
-    text.resize(2);
-    text[0] = "no File set";
-    text[1] = "no File set";
+
+    handler->wheelText.resize(2);
+    handler->wheelText[0] = "no File set";
+    handler->wheelText[1] = "no File set";
 
     update();
 }
+
 //---------------------------------------------------------------

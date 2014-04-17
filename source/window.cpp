@@ -16,8 +16,8 @@ Window::Window(QWidget *parent) :
     QWidget(parent)
 {
    //Wheel Widget anlegen
+    handler = new FileHandling(this, crazyWheel);
     crazyWheel = new Wheel(this, handler);
-    handler = new FileHandling(crazyWheel);
 
    //Main layout allozieren
     windowLayout = new QGridLayout;
@@ -59,6 +59,9 @@ void Window::fertigDrehen(void)
     goCrazy->setEnabled(true);
     readFileButton->setEnabled(true);
     locView->setEnabled(true);
+    readFileButton->setEnabled(true);
+    locDelete->setEnabled(true);
+
 }
 //---------------------------------------------------------------
 // Name     :
@@ -69,6 +72,8 @@ void Window::startDrehen(void)
     goCrazy->setEnabled(false);
     readFileButton->setEnabled(false);
     locView->setEnabled(false);
+    readFileButton->setEnabled(false);
+    locDelete->setEnabled(false);
 }
 //---------------------------------------------------------------
 // Name     :
@@ -88,17 +93,16 @@ void Window::createButtonLayout(void)
 
     locDelete = new QPushButton("Delete");
     connect(locDelete, SIGNAL(released() ), this, SLOT(deleteFile() ) );
+    locDelete->setEnabled(false);
 
     locSaveSet = new QPushButton("Save locations");
     //connect
 
     stylechanged = new QPushButton("change style");
-    connect(stylechanged, SIGNAL(released()),
-            this, SLOT(setMainStyle()));
+    connect(stylechanged, SIGNAL(released()),this, SLOT(setMainStyle()));
 
     fullScrn = new QPushButton("Fullscreen");
-    connect(fullScrn, SIGNAL(released()),
-            this, SLOT(showfullScrn()));
+    connect(fullScrn, SIGNAL(released()),this, SLOT(showfullScrn()));
 
 
     hBox = new QHBoxLayout;
@@ -154,7 +158,7 @@ void Window::setMainStyle(void)
 void Window::updateListModel(void)
 {
    locModel->setStringList(handler->getLocationsList() );
-
+   if(locView->currentIndex().row()) locDelete->setEnabled(true);
    locView->setModel(locModel);
 }
 //---------------------------------------------------------------
@@ -183,7 +187,6 @@ void Window::initListModel(void)
 void Window::setNewText()
 {
     int index = locView->currentIndex().row();
-
     handler->setTextActive(index);
 }
 //---------------------------------------------------------------
@@ -193,8 +196,6 @@ void Window::setNewText()
 void Window::addOtherFile()
 {
     handler->getANewFile();
-    handler->locElimDuplicate();
-    handler->locTest();
     updateListModel();
 }
 //---------------------------------------------------------------

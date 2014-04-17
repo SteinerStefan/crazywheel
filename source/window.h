@@ -51,6 +51,7 @@ private:
     QPushButton *stylechanged;
     QPushButton *locDelete;
     QPushButton *locSaveSet;
+
     QVBoxLayout *vBox;
 
     QPushButton *goCrazy;

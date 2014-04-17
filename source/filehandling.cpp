@@ -5,16 +5,15 @@
 #include <QtGui>
 #include <qfiledialog.h>
 #include "wheel.h"
+#include "window.h"
 //---------------------------------------------------------------
 // Name     :  FileHandling
 // Funktion :  CTor
 //---------------------------------------------------------------
-FileHandling::FileHandling(Wheel* pWheel, QWidget *parent) :
-wheel(pWheel), QWidget(parent)
+FileHandling::FileHandling(Window* pWindow,Wheel* pWheel,  QWidget *parent) :
+window(pWindow) ,wheel(pWheel),QWidget(parent)
 {
     searchFilesInDir();
-    locElimDuplicate();
-    locTest();
 }
 //---------------------------------------------------------------
 // Name     :  getANewFile
@@ -31,6 +30,8 @@ void FileHandling::getANewFile()
         locTextFiles.resize(locTextFiles.size()+1);
         locTextFiles[locTextFiles.size()-1] = location;
     }
+    locElimDuplicate();
+    locTest();
 }
 //---------------------------------------------------------------
 // Name     :  loadFile
@@ -116,6 +117,8 @@ void FileHandling::searchFilesInDir()
     {
         locTextFiles[locTextFiles.size()-1-x] = fileInDir[x];
     }
+    locElimDuplicate();
+    locTest();
 }
 //---------------------------------------------------------------
 // Name     :  programmLocation
@@ -210,9 +213,27 @@ void FileHandling::setTextActive(int pfad)
 {
     loadFile(pfad);//(pfad);
     parseText();
-    wheel->setNewFile(sectorAnzahl, wheelText);
+
+    window->update();
+    window->fertigDrehen();
+
 }
 //---------------------------------------------------------------
+// Name     :  setSectoraAnzahl
+// Funktion :
+//---------------------------------------------------------------
+int FileHandling::getSectorAnzahl(void)
+{
+    return sectorAnzahl;
+}
 
-
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+// Name     :  setSectoraAnzahl
+// Funktion :
+//---------------------------------------------------------------
+int FileHandling::setSectorAnzahl(int anzahl)
+{
+    sectorAnzahl = anzahl;
+}
 

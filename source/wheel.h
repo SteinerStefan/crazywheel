@@ -31,23 +31,24 @@ signals:
 public slots:
     void wheelDrehen(void);
     void drehprozess(void);
-    void setNewFile(int pSectorAnzahl, QVector<QString> pText);
 
 private:
-    int sectorAnzahl;
-    int offsetWinkel;
-
+    //
     QTimer *timer;
     Window *hauptFenster;
     FileHandling *handler;
+    //Wheel information
+    //int sectorAnzahl;
+    int offsetWinkel;
 
     double zeitkonst;
     double expkonst;
     double endtime;
     double anfangsgeschw;
 
-    QVector<QString> text;
     int  gewinnerString;
+
+
 };
 
 #endif // WHEEL_H
