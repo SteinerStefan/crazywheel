@@ -16,13 +16,11 @@ Window::Window(QWidget *parent) :
     QWidget(parent)
 {
    //Wheel Widget anlegen
-    handler = new FileHandling(this, crazyWheel);
+    handler = new FileHandling(this);
     crazyWheel = new Wheel(this, handler);
 
    //Main layout allozieren
     windowLayout = new QGridLayout;
-
-
 
     createButtonLayout();
 

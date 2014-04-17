@@ -1,1 +1,3 @@
 FileHandling::parseText -- linux/Windows kompatibilität anpassen
+
+better colours by odd sector numbers

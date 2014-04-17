@@ -24,6 +24,7 @@ public:
 	virtual ~Wheel();
     int randNumber();
     void wheelInitPosition();
+    void setOffsetWinkel(int winkel);
 protected:
     void paintEvent(QPaintEvent *event);
 signals:
@@ -38,7 +39,6 @@ private:
     Window *hauptFenster;
     FileHandling *handler;
     //Wheel information
-    //int sectorAnzahl;
     int offsetWinkel;
 
     double zeitkonst;

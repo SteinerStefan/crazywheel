@@ -16,6 +16,7 @@ QWidget(parent)
 {
     hauptFenster = phauptFenster;
     handler = pFileHandling;
+    handler->setWheelPointer(this);
     timer = new QTimer(this);    
 
     wheelInitPosition();
@@ -83,7 +84,7 @@ void Wheel::paintEvent(QPaintEvent *event)
     painter.setBrush(colText);
     painter.setFont(QFont("Arial", 10));
 
-        for(int x = 0; x<sectorAnzahl;x++)
+        for(int x = 0; x<sectorAnzahl;x++) //Performance verbessern
         {
             int xpos = floor(50*cos(2*M_PI/sectorAnzahl * (x+0.5) - offsetWinkel/180.0*M_PI));
             int ypos = floor(50*sin(2*M_PI/sectorAnzahl * (x+0.5) - offsetWinkel/180.0*M_PI));
@@ -125,12 +126,12 @@ void Wheel::paintEvent(QPaintEvent *event)
 void Wheel::wheelDrehen(void)
 {
     anfangsgeschw = 20;
-    endtime = 1;
-    zeitkonst = 10;
+    endtime = 5;
+    zeitkonst = 20;
 
     hauptFenster->startDrehen();
     offsetWinkel = randNumber();
-    expkonst = (zeitkonst*log(anfangsgeschw))/(endtime*1000);
+   expkonst = (zeitkonst*log(anfangsgeschw))/(endtime*1000);
 
     timer->start(zeitkonst);
 }
@@ -189,5 +190,13 @@ void Wheel::wheelInitPosition()
 
     update();
 }
+//---------------------------------------------------------------
+// Name     :
+// Funktion :
+//---------------------------------------------------------------
+void Wheel::setOffsetWinkel(int winkel)
+{
+    offsetWinkel = winkel;
 
+}
 //---------------------------------------------------------------

@@ -10,10 +10,18 @@
 // Name     :  FileHandling
 // Funktion :  CTor
 //---------------------------------------------------------------
-FileHandling::FileHandling(Window* pWindow,Wheel* pWheel,  QWidget *parent) :
-window(pWindow) ,wheel(pWheel),QWidget(parent)
+FileHandling::FileHandling(Window* pWindow, QWidget *parent) :
+window(pWindow) , QWidget(parent)
 {
     searchFilesInDir();
+}
+//---------------------------------------------------------------
+// Name     :  setWheelPointer
+// Funktion :
+//---------------------------------------------------------------
+void FileHandling::setWheelPointer(Wheel* pWheel)
+{
+    wheel = pWheel;
 }
 //---------------------------------------------------------------
 // Name     :  getANewFile
@@ -182,22 +190,12 @@ void FileHandling::deleteLoc(int pfad)
     locTextFiles.resize(locTextFiles.size()-1);
 }
 //---------------------------------------------------------------
-// Name     :  getLocations
-// Funktion :  gibt ein Array von Pfaden zurück
-//---------------------------------------------------------------
-QVector<QString>* FileHandling::getLocations()
-{
-    return &locTextFiles;
-
-}
-//---------------------------------------------------------------
 // Name     :  getLocationsList
 // Funktion :  gibt eine Qlist von Pfaden zurück
 //---------------------------------------------------------------
 QList<QString> FileHandling::getLocationsList()
 {
     QList<QString> lList;
-
 
     for(int x = 0; x < locTextFiles.size(); x++)
     {
@@ -213,8 +211,8 @@ void FileHandling::setTextActive(int pfad)
 {
     loadFile(pfad);//(pfad);
     parseText();
-
-    window->update();
+    wheel->setOffsetWinkel(0);
+    wheel->update();
     window->fertigDrehen();
 
 }

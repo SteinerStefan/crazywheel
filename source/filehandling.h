@@ -12,17 +12,23 @@ class FileHandling : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FileHandling(Window* pWindow,Wheel* pWheel,QWidget *parent = 0 );
+    explicit FileHandling(Window* pWindow,QWidget *parent = 0 );
+    void setWheelPointer(Wheel* pWheel);
+//location
     void getANewFile();
-    int  parseText();
+    void deleteLoc(int pfad);
     void searchFilesInDir();
     QString* programmLocation(void);
     void locElimDuplicate(void);
+    QList<QString> getLocationsList();
+
+//text in file
+    int  parseText();
     void locTest(void);
     void loadFile(int pfad);
-    void deleteLoc(int pfad);
-    QVector<QString>* getLocations();
-    QList<QString> getLocationsList();
+
+
+    //data wheel
     int getSectorAnzahl();
     int setSectorAnzahl(int anzahl);
     QVector<QString> wheelText;
@@ -35,6 +41,7 @@ public slots:
 private:
     Wheel* wheel;
     Window* window;
+
     int sectorAnzahl;
     QVector<QString> locTextFiles;
     QString wholeFile;
