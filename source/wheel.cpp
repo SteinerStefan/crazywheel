@@ -93,7 +93,7 @@ void Wheel::paintEvent(QPaintEvent *event)
             painter.translate(xpos,ypos);
             painter.rotate(sectorWinkel*(0.5+x) -offsetWinkel);
 
-            painter.drawText(0, 0,handler->wheelText[x].toUtf8() );
+            painter.drawText(0, 0,handler->wheelText[x].    toUtf8() );
 
             painter.restore();
         }
@@ -198,5 +198,14 @@ void Wheel::setOffsetWinkel(int winkel)
 {
     offsetWinkel = winkel;
 
+}
+//---------------------------------------------------------------
+// Name     :
+// Funktion :
+//---------------------------------------------------------------
+void setSectorAnzahl(int anzahlSektoren)
+{
+    //set sinCosArr
+    //
 }
 //---------------------------------------------------------------

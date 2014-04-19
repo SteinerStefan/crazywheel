@@ -25,6 +25,7 @@ public:
     int randNumber();
     void wheelInitPosition();
     void setOffsetWinkel(int winkel);
+    void setSectorAnzahl(int anzahlSektoren);
 protected:
     void paintEvent(QPaintEvent *event);
 signals:
@@ -45,7 +46,7 @@ private:
     double expkonst;
     double endtime;
     double anfangsgeschw;
-
+    double* sinCosArr;
     int  gewinnerString;
 
 

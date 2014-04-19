@@ -13,6 +13,7 @@
 FileHandling::FileHandling(Window* pWindow, QWidget *parent) :
 window(pWindow) , QWidget(parent)
 {
+    longestString = 0;
     searchFilesInDir();
 }
 //---------------------------------------------------------------
@@ -31,7 +32,7 @@ void FileHandling::getANewFile()
 {
     QString location;
     location = QFileDialog::getOpenFileName(this,
-    tr("Open TextFile"), "/", tr("TextFiles (*.txt)"));
+    tr("Open TextFile"), "/home/stefan", tr("Text files (*.txt);;All files (*)"));
 
     if(location != 0)
     {
@@ -47,11 +48,21 @@ void FileHandling::getANewFile()
 //---------------------------------------------------------------
 void FileHandling::loadFile(int pfad)
 {
-    QFile textFile(locTextFiles[pfad]);//Pfad mit file
-    textFile.open(QFile::ReadOnly);
     wholeFile = "";
-    wholeFile.append(textFile.readAll());
-    textFile.close();
+
+    QFile file(locTextFiles[pfad]); //Pfad mit file
+    QTextStream in(&file);
+    in.setCodec("UTF-8"); // change the file codec to UTF-8.
+    if (file.open(QFile::ReadOnly))
+    {
+        while(!in.atEnd())
+        {
+            QString line = in.readLine();
+            wholeFile.append( line.toUtf8() ); // convert to locale multi-byte string
+            wholeFile.append("\n");
+        }
+    }
+    file.close();
 }
 
 //---------------------------------------------------------------
@@ -60,8 +71,8 @@ void FileHandling::loadFile(int pfad)
 //---------------------------------------------------------------
 int FileHandling::parseText()
 {
-    QString umbruch = "\n";// bei Linux \n, bei Linux  \r\n
-    short choplength = 1;
+    QString umbruch = "\n";// bei Linux \n, bei Windows  \r\n
+    short choplength = 1;  // bei Linux  1, bei Windows 2
     int maxSector = 32;
     //if(linux)
     //if(windows)
@@ -85,6 +96,7 @@ int FileHandling::parseText()
        {
             int position = wholeFile.lastIndexOf(umbruch)+choplength;
             int laenge = wholeFile.length()-wholeFile.lastIndexOf(umbruch)-choplength;
+            if(laenge > longestString) longestString = laenge;
             wheelText[x] = wholeFile.mid(position, laenge);
             laenge = wholeFile.lastIndexOf(umbruch);
             wholeFile.resize(laenge);
@@ -199,7 +211,13 @@ QList<QString> FileHandling::getLocationsList()
 
     for(int x = 0; x < locTextFiles.size(); x++)
     {
-        lList << locTextFiles[x];
+        QString shorted = locTextFiles[x];
+        shorted = shorted.mid(shorted.lastIndexOf('/') + 1, shorted.length()-shorted.lastIndexOf('/')-1);
+        if(shorted.indexOf(".txt") != -1)
+        {
+           shorted.chop(4); //da ".txt" vier zeichen lang ist.
+        }
+        lList << shorted;
     }
     return lList;
 }
@@ -226,7 +244,6 @@ int FileHandling::getSectorAnzahl(void)
 }
 
 //---------------------------------------------------------------
-//---------------------------------------------------------------
 // Name     :  setSectoraAnzahl
 // Funktion :
 //---------------------------------------------------------------
@@ -234,4 +251,13 @@ int FileHandling::setSectorAnzahl(int anzahl)
 {
     sectorAnzahl = anzahl;
 }
+//---------------------------------------------------------------
+// Name     :  getLongestString
+// Funktion :
+//---------------------------------------------------------------
+int FileHandling::getLongestString()
+{
+    return longestString;
+}
 
+//---------------------------------------------------------------

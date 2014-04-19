@@ -26,7 +26,7 @@ public:
     int  parseText();
     void locTest(void);
     void loadFile(int pfad);
-
+    int getLongestString();
 
     //data wheel
     int getSectorAnzahl();
@@ -45,6 +45,7 @@ private:
     int sectorAnzahl;
     QVector<QString> locTextFiles;
     QString wholeFile;
+    int longestString;
 };
 
 #endif // FILEHANDLING_H
